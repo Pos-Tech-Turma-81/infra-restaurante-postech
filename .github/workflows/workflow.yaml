@@ -1,0 +1,44 @@
+name: Terraform Infrastructure
+
+on:
+  push:
+    branches: [ "main" ]   # executa no push na branch main
+  pull_request:
+    branches: [ "main" ]   # executa no PR também
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ASIAVLMQDQWBQTYBEDKH
+      AWS_SECRET_ACCESS_KEY: MTphNIIYlcbfBqsMPLnkksuPt+8BKRym446rCFjc
+      AWS_DEFAULT_REGION: us-east-1  # ajuste sua região
+      TF_IN_AUTOMATION: true
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5   # ajuste a versão que usa
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      # aplica só se for push na main
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve tfplan
