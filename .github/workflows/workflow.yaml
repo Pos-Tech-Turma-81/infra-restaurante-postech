@@ -16,7 +16,6 @@ jobs:
       AWS_SECRET_ACCESS_KEY: MTphNIIYlcbfBqsMPLnkksuPt+8BKRym446rCFjc
       AWS_SESSION_TOKEN: IQoJb3JpZ2luX2VjEO7//////////wEaCXVzLXdlc3QtMiJGMEQCIHV+MaiFoiUUfcKBoT21MWMJFmloGzgSfJk4z9elLUKSAiBKY9jMKQ6bKHdFYjnwv8Avnutts/IrFS7yTlwyWFl9ISq/AghnEAAaDDM2ODA1ODc5NTM5NSIMgJTlwsb+Eqiqu7p0KpwC46F+ZAipAudlWdcNyJwjhAbzZF+N/BMh+oYDA9uYschy3NADjaJ6IfRYJEls7yJ5gSqU6DhEEUQVZv3GYOi7cz+fz3RkByNi1f9Lrpns6i3IMn2y5Objz43OccFvQbJ0p5IlPgILBIbkK5nbtMgCvh1tOcqcJRX9PZR+TDcvmCXgskz9ZutJHISbETahqayRT7eYYRDFwVPrkIuuxGrTIEkIy6hS3D7FLOgiUrenWiIf7smbyr/yaH0aGQO4T8ldHCPRudc+bUdS7J4Or/uafj3p06wM3SGLsWs0pKpwzDQZhVpZSipHUU6F/M4ubddPLq+n3+HVF7C2esv7W46aTh7eNeuPjKUqz+zz9QpsBdNLeYyZKG9/rHycSecwwvqcxgY6ngHStA9r4re+05vg+rpXot13oGbvrApLywWLjbnfFYBQzAFc7DqPWXmrn+3ISmMcNSNwy7dirAtedAt0UDlUsWbZQER4wsIkByZnlhAjmAiTDZqX4rPUIeVvM49M32mk/z+2N/SUa/3lG7wwX9n+qUw5GFC/uJJLJ+L3ox+YhDsWDewbR1vQdKcp3uHwYNIkSxYaU5LJElT6dUB75KSGpw==
       AWS_DEFAULT_REGION: us-east-1  # ajuste sua região
-      TF_IN_AUTOMATION: true
 
     steps:
       - name: Checkout repo
