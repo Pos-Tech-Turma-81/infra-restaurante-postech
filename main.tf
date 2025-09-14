@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "my-terraform-state-turma-81"    # seu bucket
+    bucket         = "my-terraform-state"    # seu bucket
     key            = "terraform.tfstate"     # caminho do state no S3
     region         = "us-east-1"             # região do bucket
   }
@@ -15,8 +15,6 @@ terraform {
       version = ">= 3.7.2"
     }
   }
-
-  required_version = ">= 1.5.0"
 }
 
 provider "aws" {
