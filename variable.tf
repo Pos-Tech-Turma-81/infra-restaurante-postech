@@ -13,7 +13,7 @@ variable "projectName" {
 }
 
 variable "labRole" {
-  default = "arn:aws:iam::368058795395:role/LabRole"
+  default = "arn:aws:iam::730335330366:role/LabRole"
 }
 
 variable "accessConfig" {
@@ -29,7 +29,7 @@ variable "instanceType" {
 }
 
 variable "principalArn" {
-  default = "arn:aws:iam::368058795395:role/voclabs"
+  default = "arn:aws:iam::730335330366:role/voclabs"
 }
 
 variable "policyArn" {
