@@ -3,6 +3,10 @@ name: Terraform Destroy
 on:
   issues:
     types: [opened]
+  
+permissions:
+  issues: write
+  contents: read
 
 jobs:
   destroy:
