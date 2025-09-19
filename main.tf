@@ -21,6 +21,8 @@ provider "aws" {
   region = var.aws_region
 }
 
+data "aws_caller_identity" "current" {}
+
 # Filter out local zones, which are not currently supported 
 # with managed node groups
 data "aws_availability_zones" "available" {
@@ -90,7 +92,7 @@ resource "aws_security_group" "eks_cluster_sg" {
 
 resource "aws_eks_access_entry" "eks-access-entry" {
   cluster_name      = aws_eks_cluster.eks_cluster_restaurante.name
-  principal_arn     = var.principalArn
+  principal_arn     = var."arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/voclabs"
   kubernetes_groups = ["fiap"]
   type              = "STANDARD"
 }
@@ -98,7 +100,7 @@ resource "aws_eks_access_entry" "eks-access-entry" {
 resource "aws_eks_access_policy_association" "eks-access-policy" {
   cluster_name  = aws_eks_cluster.eks_cluster_restaurante.name
   policy_arn    = var.policyArn
-  principal_arn = var.principalArn
+  principal_arn = var."arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/voclabs"
 
   access_scope {
     type = "cluster"
@@ -108,7 +110,7 @@ resource "aws_eks_access_policy_association" "eks-access-policy" {
 # 8. Cluster EKS
 resource "aws_eks_cluster" "eks_cluster_restaurante" {
   name     = "eks-fargate-eks_cluster_restaurante"
-  role_arn = var.labRole
+  role_arn = arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole
 
   vpc_config {
     subnet_ids = concat(module.vpc.public_subnets, module.vpc.private_subnets)
@@ -123,7 +125,7 @@ resource "aws_eks_cluster" "eks_cluster_restaurante" {
 resource "aws_eks_node_group" "eks_nodes" {
   cluster_name    = aws_eks_cluster.eks_cluster_restaurante.name
   node_group_name = var.nodeGroup
-  node_role_arn   = var.labRole
+  node_role_arn   = arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole
   subnet_ids      = module.vpc.private_subnets
   disk_size       = 50
   instance_types  = [var.instanceType]
