@@ -125,7 +125,7 @@ resource "aws_eks_cluster" "eks_cluster_restaurante" {
 resource "aws_eks_node_group" "eks_nodes" {
   cluster_name    = aws_eks_cluster.eks_cluster_restaurante.name
   node_group_name = var.nodeGroup
-  node_role_arn   = arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole
+  node_role_arn   = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole"
   subnet_ids      = module.vpc.private_subnets
   disk_size       = 50
   instance_types  = [var.instanceType]
