@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "my-terraform-state-turma-82"    # seu bucket
+    bucket         = "my-terraform-state-turma-81"    # seu bucket
     key            = "infra-eks.tfstate"     # caminho do state no S3
     region         = "us-east-1"             # região do bucket
   }
@@ -92,7 +92,7 @@ resource "aws_security_group" "eks_cluster_sg" {
 
 resource "aws_eks_access_entry" "eks-access-entry" {
   cluster_name      = aws_eks_cluster.eks_cluster_restaurante.name
-  principal_arn     = var."arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/voclabs"
+  principal_arn     = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/voclabs"
   kubernetes_groups = ["fiap"]
   type              = "STANDARD"
 }
@@ -100,7 +100,7 @@ resource "aws_eks_access_entry" "eks-access-entry" {
 resource "aws_eks_access_policy_association" "eks-access-policy" {
   cluster_name  = aws_eks_cluster.eks_cluster_restaurante.name
   policy_arn    = var.policyArn
-  principal_arn = var."arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/voclabs"
+  principal_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/voclabs"
 
   access_scope {
     type = "cluster"
@@ -110,7 +110,7 @@ resource "aws_eks_access_policy_association" "eks-access-policy" {
 # 8. Cluster EKS
 resource "aws_eks_cluster" "eks_cluster_restaurante" {
   name     = "eks-fargate-eks_cluster_restaurante"
-  role_arn = arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole
+  role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole"
 
   vpc_config {
     subnet_ids = concat(module.vpc.public_subnets, module.vpc.private_subnets)
