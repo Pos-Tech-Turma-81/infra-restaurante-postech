@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "my-terraform-state-turma-82"    # seu bucket
+    bucket         = "my-terraform-state-turma-83"    # seu bucket
     key            = "infra-eks.tfstate"     # caminho do state no S3
     region         = "us-east-1"             # região do bucket
   }
