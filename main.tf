@@ -4,6 +4,7 @@ terraform {
     key            = "infra-eks.tfstate"     # caminho do state no S3
     region         = "us-east-1"             # região do bucket
   }
+  
 
   required_providers {
     aws = {
