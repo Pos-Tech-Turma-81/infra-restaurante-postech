@@ -5,6 +5,8 @@ on:
     branches: ["main"] # executa no push na branch main
   pull_request:
     branches: ["main"] # executa no PR também
+  workflow_dispatch:
+
 
 jobs:
   terraform:
