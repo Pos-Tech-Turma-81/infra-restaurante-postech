@@ -141,3 +141,28 @@ resource "aws_eks_node_group" "eks_nodes" {
   }
 }
 
+output "vpc_id" {
+  description = "VPC ID criada para o cluster"
+  value       = module.vpc.vpc_id
+}
+
+output "private_subnet_ids" {
+  description = "Subnets privadas da VPC"
+  value       = module.vpc.private_subnets
+}
+
+output "public_subnet_ids" {
+  description = "Subnets públicas da VPC"
+  value       = module.vpc.public_subnets
+}
+
+output "eks_cluster_name" {
+  description = "Nome do cluster EKS"
+  value       = aws_eks_cluster.eks_cluster_restaurante.name
+}
+
+output "eks_cluster_security_group_id" {
+  description = "Security group do cluster EKS"
+  value       = aws_security_group.eks_cluster_sg.id
+}
+
