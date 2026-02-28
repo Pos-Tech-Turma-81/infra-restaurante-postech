@@ -27,3 +27,16 @@ variable "instanceType" {
 variable "policyArn" {
   default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
+
+variable "environment" {
+  description = "Nome do ambiente"
+  type        = string
+  default     = "production"
+}
+
+variable "db_password" {
+  description = "Senha do banco de dados"
+  type        = string
+  sensitive   = true
+}
+

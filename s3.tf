@@ -1,22 +1,3 @@
-terraform {
-  backend "s3" {
-    bucket         = "state-turma-postech-81"    # seu bucket
-    key            = "infra-s3.tfstate"     # caminho do state no S3
-    region         = "us-east-1"             # região do bucket
-  }
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.30.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.7.2"
-    }
-  }
-}
-
 # Bucket para vídeos originais
 resource "aws_s3_bucket" "videos_input" {
   bucket = "video-input-${data.aws_caller_identity.current.account_id}-${random_string.suffix.result}"

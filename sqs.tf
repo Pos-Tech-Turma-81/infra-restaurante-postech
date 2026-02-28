@@ -1,22 +1,3 @@
-terraform {
-  backend "s3" {
-    bucket         = "state-turma-postech-81"    # seu bucket
-    key            = "infra-sqs.tfstate"     # caminho do state no S3
-    region         = "us-east-1"             # região do bucket
-  }
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.30.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.7.2"
-    }
-  }
-}
-
 # DLQ para vídeos que falharam no processamento
 resource "aws_sqs_queue" "video_processing_dlq" {
   name                      = "video-processing-dlq"

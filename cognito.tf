@@ -1,22 +1,3 @@
-terraform {
-  backend "s3" {
-    bucket         = "state-turma-postech-81"    # seu bucket
-    key            = "infra-cognito.tfstate"     # caminho do state no S3
-    region         = "us-east-1"             # região do bucket
-  }
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.30.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 3.7.2"
-    }
-  }
-}
-
 # User Pool do Cognito
 resource "aws_cognito_user_pool" "video_processing" {
   name = "video-processing-users"
