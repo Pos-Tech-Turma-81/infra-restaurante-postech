@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "state-turma-postech-81"    # seu bucket
+    bucket         = "state-turma-postech-199"    # seu bucket
     key            = "infra-eks.tfstate"     # caminho do state no S3
     region         = "us-east-1"             # região do bucket
   }
@@ -33,7 +33,10 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
-  cluster_name = "education-eks-${random_string.suffix.result}"
+  cluster_name    = "education-eks-${random_string.suffix.result}"
+  vpc_id          = module.vpc.vpc_id
+  private_subnets = module.vpc.private_subnets
+  public_subnets  = module.vpc.public_subnets
 }
 
 resource "random_string" "suffix" {
