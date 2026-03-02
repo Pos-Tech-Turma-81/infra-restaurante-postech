@@ -50,7 +50,10 @@ jobs:
 
       - name: Export Terraform Outputs JSON
         if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
-        run: terraform output -json > terraform-outputs.json
+        run: |
+          terraform output -json > terraform-outputs.json
+          echo "📋 Terraform Outputs:"
+          cat terraform-outputs.json | jq '.'
 
       - name: Upload Terraform Outputs Artifact
         if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
