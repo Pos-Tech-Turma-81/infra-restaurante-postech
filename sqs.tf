@@ -28,12 +28,28 @@ resource "aws_sqs_queue" "video_processing" {
   }
 }
 
+# DLQ para notificações
+resource "aws_sqs_queue" "notifications_dlq" {
+  name                      = "notifications-dlq"
+  message_retention_seconds = 1209600 # 14 dias
+
+  tags = {
+    Name        = "Notifications DLQ"
+    Environment = var.environment
+  }
+}
+
 # Fila para notificações
 resource "aws_sqs_queue" "notifications" {
   name                       = "notifications-queue"
   visibility_timeout_seconds = 60
   message_retention_seconds  = 86400 # 1 dia
   receive_wait_time_seconds  = 20
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.notifications_dlq.arn
+    maxReceiveCount     = 5
+  })
 
   tags = {
     Name        = "Notifications Queue"
@@ -63,4 +79,45 @@ resource "aws_sqs_queue_policy" "notifications" {
       }
     ]
   })
+}
+
+
+output "video_processing_queue_url" {
+  description = "URL da fila de processamento de vídeos"
+  value       = aws_sqs_queue.video_processing.url
+}
+
+output "video_processing_queue_arn" {
+  description = "ARN da fila de processamento de vídeos"
+  value       = aws_sqs_queue.video_processing.arn
+}
+
+output "video_processing_dlq_url" {
+  description = "URL da DLQ de processamento de vídeos"
+  value       = aws_sqs_queue.video_processing_dlq.url
+}
+
+output "video_processing_dlq_arn" {
+  description = "ARN da DLQ de processamento de vídeos"
+  value       = aws_sqs_queue.video_processing_dlq.arn
+}
+
+output "notifications_queue_url" {
+  description = "URL da fila de notificações (para email-notifier)"
+  value       = aws_sqs_queue.notifications.url
+}
+
+output "notifications_queue_arn" {
+  description = "ARN da fila de notificações"
+  value       = aws_sqs_queue.notifications.arn
+}
+
+output "notifications_dlq_url" {
+  description = "URL da DLQ de notificações"
+  value       = aws_sqs_queue.notifications_dlq.url
+}
+
+output "notifications_dlq_arn" {
+  description = "ARN da DLQ de notificações"
+  value       = aws_sqs_queue.notifications_dlq.arn
 }
