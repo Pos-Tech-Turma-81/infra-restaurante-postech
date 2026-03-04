@@ -3,8 +3,6 @@ name: Terraform Infrastructure
 on:
   push:
     branches: ["main"] # executa no push na branch main
-  pull_request:
-    branches: ["main"] # executa no PR também
 
 jobs:
   terraform:
