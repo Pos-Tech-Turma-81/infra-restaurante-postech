@@ -1,22 +1,22 @@
-# Bucket para vídeos originais
-resource "aws_s3_bucket" "videos_input" {
-  bucket = "video-input-${data.aws_caller_identity.current.account_id}-${random_string.suffix.result}"
+# Bucket único para todo o fluxo de vídeos
+resource "aws_s3_bucket" "videos" {
+  bucket = var.bucket_name
 
   tags = {
-    Name        = "Videos Input Bucket"
+    Name        = "Videos Bucket"
     Environment = var.environment
   }
 }
 
-resource "aws_s3_bucket_versioning" "videos_input" {
-  bucket = aws_s3_bucket.videos_input.id
+resource "aws_s3_bucket_versioning" "videos" {
+  bucket = aws_s3_bucket.videos.id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "videos_input" {
-  bucket = aws_s3_bucket.videos_input.id
+resource "aws_s3_bucket_lifecycle_configuration" "videos" {
+  bucket = aws_s3_bucket.videos.id
 
   rule {
     id     = "delete-old-versions"
@@ -28,36 +28,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "videos_input" {
   }
 }
 
-# Bucket para imagens processadas
-resource "aws_s3_bucket" "videos_output" {
-  bucket = "video-output-${data.aws_caller_identity.current.account_id}-${random_string.suffix.result}"
-
-  tags = {
-    Name        = "Videos Output Bucket"
-    Environment = var.environment
-  }
-}
-
-resource "aws_s3_bucket_versioning" "videos_output" {
-  bucket = aws_s3_bucket.videos_output.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-# Bucket para arquivos ZIP
-resource "aws_s3_bucket" "videos_zip" {
-  bucket = "video-zip-${data.aws_caller_identity.current.account_id}-${random_string.suffix.result}"
-
-  tags = {
-    Name        = "Videos ZIP Bucket"
-    Environment = var.environment
-  }
-}
-
-# CORS para upload direto
-resource "aws_s3_bucket_cors_configuration" "videos_input" {
-  bucket = aws_s3_bucket.videos_input.id
+# CORS para upload direto (se precisar)
+resource "aws_s3_bucket_cors_configuration" "videos" {
+  bucket = aws_s3_bucket.videos.id
 
   cors_rule {
     allowed_headers = ["*"]
@@ -68,9 +41,9 @@ resource "aws_s3_bucket_cors_configuration" "videos_input" {
   }
 }
 
-# Block public access - Input
-resource "aws_s3_bucket_public_access_block" "videos_input" {
-  bucket = aws_s3_bucket.videos_input.id
+# Block public access - Bucket
+resource "aws_s3_bucket_public_access_block" "videos" {
+  bucket = aws_s3_bucket.videos.id
 
   block_public_acls       = true
   block_public_policy     = true
@@ -78,23 +51,18 @@ resource "aws_s3_bucket_public_access_block" "videos_input" {
   restrict_public_buckets = true
 }
 
-# Block public access - Output
-resource "aws_s3_bucket_public_access_block" "videos_output" {
-  bucket = aws_s3_bucket.videos_output.id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+# Opcional: criar objetos vazios para “pastas” lógicas
+resource "aws_s3_object" "folder_processar" {
+  bucket = aws_s3_bucket.videos.id
+  key    = "processar/"
 }
 
-# Block public access - ZIP
-resource "aws_s3_bucket_public_access_block" "videos_zip" {
-  bucket = aws_s3_bucket.videos_zip.id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+resource "aws_s3_object" "folder_processando" {
+  bucket = aws_s3_bucket.videos.id
+  key    = "processando/"
 }
 
+resource "aws_s3_object" "folder_processado" {
+  bucket = aws_s3_bucket.videos.id
+  key    = "processado/"
+}

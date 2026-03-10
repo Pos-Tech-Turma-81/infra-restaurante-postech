@@ -38,5 +38,15 @@ variable "db_password" {
   description = "Senha do banco de dados"
   type        = string
   sensitive   = true
+  default     = "SenhaSegura123!"
 }
 
+variable "bucket_name" {
+  description = "Nome do bucket S3 para os vídeos"
+  type        = string
+}
+
+variable "backend_base_url" {
+  description = "URL base HTTP do serviço de vídeos (sem barra no final)"
+  type        = string
+}
