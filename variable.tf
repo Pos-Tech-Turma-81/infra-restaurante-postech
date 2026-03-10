@@ -44,5 +44,5 @@ variable "db_password" {
 variable "bucket_name" {
   description = "Nome do bucket S3 para os vídeos"
   type        = string
-  default = "video-processing-bucket"
+  default = "state-turma-postech-198"
 }
