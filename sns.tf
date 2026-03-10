@@ -22,3 +22,14 @@ resource "aws_sns_topic_subscription" "notifications_sqs" {
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.notifications.arn
 }
+
+
+output "video_notifications_topic_arn" {
+  description = "ARN do tópico SNS de notificações de vídeo"
+  value       = aws_sns_topic.video_notifications.arn
+}
+
+output "video_completed_topic_arn" {
+  description = "ARN do tópico SNS de vídeos completados"
+  value       = aws_sns_topic.video_completed.arn
+}
